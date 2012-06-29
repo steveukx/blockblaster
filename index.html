@@ -55,7 +55,7 @@
                do { index = Number.rand(0,9); } while(used[index]);
                used[index] = true;
 
-               Game.columns[index].pushToken(new Token(Game.ROW_HEIGHT, Game.colors[Number.rand(0,3)], Game.container));
+               Game.columns[index].pushToken(new Token(Game.colors[Number.rand(0,3)], Game.container));
             }
          }
          dropTokens.run = function() {

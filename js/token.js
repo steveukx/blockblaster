@@ -1,7 +1,6 @@
 
-function Token(height, color, container) {
-   this.height = height;
-   this.top = 0 - height;
+function Token(color, container) {
+   this.top = 0 - Game.ROW_HEIGHT;
    this._sprite = jQuery('<div class="token" />')
                      .css('top', this.top)
                      .addClass(this.color = color).appendTo(container).get(0);
@@ -9,10 +8,8 @@ function Token(height, color, container) {
 
 Token.prototype.top = 0;
 
-Token.prototype.height = 0;
-
 Token.prototype.shunt = function() {
-   this._sprite.style.top = (this.top += this.height) + 'px';
+   this._sprite.style.top = (this.top += Game.ROW_HEIGHT) + 'px';
 };
 
 Token.prototype.setTop = function(top) {

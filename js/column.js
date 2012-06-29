@@ -70,7 +70,7 @@ Column.prototype.detectCollisions = function() {
             }
          }
          else {
-            this.pushToken(new Token(this._tokens[0].height, fire.color, Game.container)
+            this.pushToken(new Token(fire.color, Game.container)
                .setTop(bottom), true);
          }
       }
