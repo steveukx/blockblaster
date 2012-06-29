@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+   <title></title>
+   <meta name="viewport" content="width=320">
+   <link rel="stylesheet" href="./css/style.css">
+   <script>
+      Number.rand = function(min, max) { return min + Math.floor(Math.random() * (max - min + 1)); };
+      Number.prototype.formatGrouped = function() {
+         if(this < 1000) return this.toFixed(0);
+         var source = this.toFixed(0).split('');
+
+         var out = source.splice(0, source.length % 3).join('');
+         while(source.length) {
+            out += ',' + source.splice(0, 3).join('');
+         }
+         return (out.charAt(0) == ',') ? out.substr(1) : out;
+      };
+   </script>
+   <script src="./js/jquery-1.8b1.js"></script>
+   <script src="./js/subscribable.js"></script>
+   <script src="./js/token.js"></script>
+   <script src="./js/column.js"></script>
+   <script src="./js/spaceship.js"></script>
+   <script src="./js/fire.js"></script>
+</head>
+<body>
+   <div class="blah"></div>
+   <div id="game-score" class="faint">0</div>
+   <section id="game">
+      <div id="spaceship-icon" class="faint"></div>
+      <div id="game-shim"></div>
+   </section>
+
+   <script src="./js/game.js"></script>
+   <script>
+
+      (function() {
+
+         new SpaceShip();
+
+         var divs = [],
+            pageX = Game.container.position().left;
+
+         Game.on('interaction.clicked', function(left, top) {
+            var column = Game.getColumnForLeft(left);
+            column.pushFire(new Fire(Game.container, Game.nextColor, column.left));
+            Game.fire('fire');
+            onAnimationFrame.start();
+         });
+
+         function dropTokens() {
+            var used = {};
+            for(var index, i = 5; --i;) {
+               do { index = Number.rand(0,9); } while(used[index]);
+               used[index] = true;
+
+               Game.columns[index].pushToken(new Token(Game.ROW_HEIGHT, Game.colors[Number.rand(0,3)], Game.container));
+            }
+         }
+         dropTokens.run = function() {
+            dropTokens._interval = setInterval(function() {
+               webkitRequestAnimationFrame(dropTokens);
+            }, 3000);
+         };
+         dropTokens.stop = function() {
+            clearInterval(dropTokens._interval);
+         };
+
+         function onAnimationFrame() {
+            console.log('running');
+
+            Game.columns.forEach(function(column) {
+               column.detectCollisions();
+            });
+
+            onAnimationFrame.waiting = false;
+            if(Fire.count) {
+               webkitRequestAnimationFrame(onAnimationFrame);
+            }
+         }
+         onAnimationFrame.start = function() {
+            if(!onAnimationFrame.waiting) {
+               webkitRequestAnimationFrame(onAnimationFrame);
+               onAnimationFrame.waiting = true;
+            }
+         };
+
+         dropTokens.run();
+
+         Game.on('game.score', function(score) {
+            document.getElementById('game-score').innerHTML = score.formatGrouped();
+         });
+         Game.on('game.over', dropTokens.stop);
+      }());
+   </script>
+</body>
+</html>
