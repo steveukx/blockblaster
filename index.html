@@ -2,7 +2,7 @@
 <html>
 <head>
    <title></title>
-   <meta name="viewport" content="width=320">
+   <meta name="viewport" content="width=340">
    <link rel="stylesheet" href="./css/style.css">
    <script>
       Number.rand = function(min, max) { return min + Math.floor(Math.random() * (max - min + 1)); };
@@ -57,7 +57,7 @@
          function dropTokens() {
             var used = {};
             for(var index, i = 5; --i;) {
-               do { index = Number.rand(0,9); } while(used[index]);
+               do { index = Number.rand(0,Game.COLUMN_COUNT - 1); } while(used[index]);
                used[index] = true;
 
                Game.columns[index].pushToken(Game.colors[Number.rand(0,3)]);

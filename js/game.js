@@ -1,9 +1,9 @@
 
 var Game = new Subscribable();
 
-Game.COLUMN_WIDTH = 30;
+Game.COLUMN_WIDTH = 40;
 
-Game.COLUMN_COUNT = 10;
+Game.COLUMN_COUNT = 8;
 
 Game.ROW_HEIGHT = 20;
 
