@@ -30,6 +30,11 @@ Game.container.on(Game.pointerTouchEvent, function(e) {
 
    var offsetX = e.offsetX;
    var offsetY = e.offsetY;
+   if(e.originalEvent.touches) {
+      var gameContainerPosition = Game.container.position();
+      offsetX = e.originalEvent.touches[0].pageX - gameContainerPosition.left;
+      offsetY = e.originalEvent.touches[0].pageY - gameContainerPosition.top;
+   }
    this.fire('interaction.clicked', offsetX, offsetY);
    this.fire('interaction.pointermoved', offsetX, offsetY);
 }.bind(Game));
