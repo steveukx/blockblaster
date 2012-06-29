@@ -1,25 +1,27 @@
 
-function Column(left, maxTokens) {
+function Column(left, maxTokens, container) {
    this.left = left;
    this._tokens = [];
    this._fire = [];
    this._maxTokens = maxTokens;
+   this._sprite = jQuery('<div class="column"></div>').css('left', left).appendTo(container);
 }
 
 /**
  *
- * @param token
+ * @param {String} color
  * @param {Boolean} [toEnd=false]
  */
-Column.prototype.pushToken = function(token, toEnd) {
+Column.prototype.pushToken = function(color, toEnd) {
+   var token = new Token(color);
+
    if(toEnd) {
-      this._tokens.push(token.setLeft(this.left));
+      this._tokens.push(token);
+      this._sprite.append(token.getDom());
    }
    else {
-      this._tokens.unshift(token.setLeft(this.left));
-      this._tokens.forEach(function(token) {
-         token.shunt();
-      });
+      this._tokens.unshift(token);
+      this._sprite.prepend(token.getDom());
    }
 
    if(this._tokens.length >= this._maxTokens) {
@@ -58,7 +60,7 @@ Column.prototype.dropFire = function(fire) {
 Column.prototype.detectCollisions = function() {
    if(!this._fire.length || !this._tokens.length) return;
 
-   var bottom = (this._tokens.length + 0) * this._tokens[0].height;
+   var bottom = (this._tokens.length + 0) * Game.ROW_HEIGHT;
    this._fire.forEach(function(fire) {
       if(fire.getTop() <= bottom) {
          this.dropFire(fire.explode(bottom));
@@ -70,8 +72,7 @@ Column.prototype.detectCollisions = function() {
             }
          }
          else {
-            this.pushToken(new Token(fire.color, Game.container)
-               .setTop(bottom), true);
+            this.pushToken(fire.color, true);
          }
       }
    }.bind(this));
