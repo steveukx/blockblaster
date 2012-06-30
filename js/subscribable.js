@@ -303,10 +303,3 @@ var Subscribable = (function () {
 
 }());
 
-/*
- * If this is being used in a browser as a requireJs or commonJs module, or is being used as part of a NodeJS
- * app, externalise the Subscribable constructor as module.exports
- */
-try {
-    module.exports = Subscribable;
-} catch(e) {}
