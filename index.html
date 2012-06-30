@@ -5,7 +5,6 @@
    <meta name="viewport" content="width=340">
    <link rel="stylesheet" href="./css/style.css">
    <script>
-      Number.rand = function(min, max) { return min + Math.floor(Math.random() * (max - min + 1)); };
       Number.prototype.formatGrouped = function() {
          if(this < 1000) return this.toFixed(0);
          var source = this.toFixed(0).split('');
@@ -15,6 +14,10 @@
             out += ',' + source.splice(0, 3).join('');
          }
          return (out.charAt(0) == ',') ? out.substr(1) : out;
+      };
+      Number.rand = function(min, max) { return min + Math.floor(Math.random() * (max - min + 1)); };
+      Array.prototype.rand = function() {
+         return this[Number.rand(0, this.length - 1)];
       };
       if(!Function.prototype.bind) {
          Function.prototype.bind = function(scope) {
@@ -70,11 +73,11 @@
 
          function dropTokens() {
             var used = {};
-            for(var index, i = 5; --i;) {
-               do { index = Number.rand(0,Game.COLUMN_COUNT - 1); } while(used[index]);
-               used[index] = true;
+            for(var column, i = 5; --i;) {
+               do { column = Game.columns.rand(); } while(used[column.index]);
+               used[column.index] = true;
 
-               Game.columns[index].pushToken(Game.colors[Number.rand(0,3)]);
+               column.pushToken(Game.colors.rand());
             }
          }
          dropTokens.run = function() {

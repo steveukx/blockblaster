@@ -100,13 +100,22 @@ Game.columns = (function() {
  *
  * @type {String}
  */
-Game.nextColor = Game.colors[Number.rand(0,3)];
+Game.nextColor = Game.colors.rand();
+
+Game.nextColors = (function() {
+   var nextColors = [];
+   for(var i = 5; --i;) {
+      nextColors.push(Game.colors.rand());
+   }
+   return nextColors;
+}());
 
 Game.on('fire', function() {
    var oldColor = this.nextColor;
-   this.nextColor = Game.colors[Number.rand(0,3)];
+   this.nextColor = Game.nextColors.pop();
 
    Game.fire('colorchanged', this.nextColor, oldColor);
+   Game.nextColors.unshift(Game.colors.rand());
 }, Game);
 
 Game.on('interaction.clicked', function() { console.log(arguments); });
