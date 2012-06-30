@@ -23,27 +23,19 @@ Game.running = true;
  */
 Game.container = jQuery('#game');
 
+Game.containerPosition = Game.container.position();
+
 Game.pointerTouchEvent = ('ontouchstart' in document.documentElement) ? 'touchstart' : 'click';
 
-Game.container.on(Game.pointerTouchEvent, function(e) {
+Game.container.on(Game.pointerTouchEvent + ' mousemove', function(e) {
    if(!Game.running) return;
 
-   var offsetX = e.offsetX;
-   var offsetY = e.offsetY;
-   if(e.originalEvent.touches) {
-      var gameContainerPosition = Game.container.position();
-      offsetX = e.originalEvent.touches[0].pageX - gameContainerPosition.left;
-      offsetY = e.originalEvent.touches[0].pageY - gameContainerPosition.top;
+   var left = Game.getColumnForLeft(e.pageX - Game.containerPosition.left).left + (Game.COLUMN_WIDTH / 2);
+   if(e.type != 'mousemove') {
+      Game.fire('interaction.clicked', left);
    }
-   this.fire('interaction.clicked', offsetX, offsetY);
-   this.fire('interaction.pointermoved', offsetX, offsetY);
-}.bind(Game));
-
-Game.container.on('mousemove', function(e) {
-   if(!Game.running) return;
-
-   this.fire('interaction.pointermoved', e.offsetX, e.offsetY);
-}.bind(Game));
+   Game.fire('interaction.pointermoved', left);
+});
 
 /**
  *

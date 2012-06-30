@@ -8,9 +8,8 @@ function SpaceShip() {
 SpaceShip.prototype.left = 0;
 
 SpaceShip.prototype.alignSpriteToInteraction = function(left) {
-   var newLeft = Game.getColumnOffsetForX(left);
-   if(newLeft != this.left) {
-      this._sprite.css('background-position', ((this.left = newLeft) - 8) + 'px 0');
+   if(left != this.left) {
+      this._sprite.css('background-position', ((this.left = left) - 24) + 'px 0');
    }
 };
 
