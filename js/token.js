@@ -9,7 +9,6 @@ Token.prototype.setLeft = function(left) {
 };
 
 Token.prototype.explode = function() {
-   Game.fire('token.explode', this);
    this._sprite.remove();
    return this;
 };

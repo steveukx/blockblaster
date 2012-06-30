@@ -90,8 +90,8 @@ Game.getColumnForLeft = function(left) {
  */
 Game.columns = (function() {
    var columns = [];
-   for(var i = Game.COLUMN_COUNT; i--;) {
-      columns.push(new Column(Game.COLUMN_WIDTH * (Game.COLUMN_COUNT - i - 1), Game.ROW_COUNT, Game.container));
+   for(var columnIndex, i = Game.COLUMN_COUNT; columnIndex = Game.COLUMN_COUNT - i, i--;) {
+      columns.push(new Column(Game.COLUMN_WIDTH * columnIndex, Game.ROW_COUNT, Game.container, columnIndex));
    }
    return columns;
 }());

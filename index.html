@@ -16,6 +16,20 @@
          }
          return (out.charAt(0) == ',') ? out.substr(1) : out;
       };
+      if(!Function.prototype.bind) {
+         Function.prototype.bind = function(scope) {
+            var fn = this,
+                args = [].slice.call(arguments,1);
+            return function() {
+               return fn.apply(scope, args.concat([].slice.call(arguments,0)));
+            };
+         }
+      }
+      requestAnimationFrame = window.requestAnimationFrame ||
+                              window.webkitRequestAnimationFrame ||
+                              function(fn) {
+                                 setTimeout(fn, 60);
+                              };
    </script>
    <script>
       window.onerror = function(a,b,c) {
@@ -65,7 +79,7 @@
          }
          dropTokens.run = function() {
             dropTokens._interval = setInterval(function() {
-               webkitRequestAnimationFrame(dropTokens);
+               requestAnimationFrame(dropTokens);
             }, 3000);
          };
          dropTokens.stop = function() {
@@ -81,12 +95,12 @@
 
             onAnimationFrame.waiting = false;
             if(Fire.count) {
-               webkitRequestAnimationFrame(onAnimationFrame);
+               requestAnimationFrame(onAnimationFrame);
             }
          }
          onAnimationFrame.start = function() {
             if(!onAnimationFrame.waiting) {
-               webkitRequestAnimationFrame(onAnimationFrame);
+               requestAnimationFrame(onAnimationFrame);
                onAnimationFrame.waiting = true;
             }
          };
