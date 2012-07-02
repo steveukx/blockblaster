@@ -14,6 +14,16 @@
             height: 20px;
          }
       }
+@-webkit-keyframes token-exploding {
+         from {
+            -webkit-transform: inherit;
+         }
+         to {
+            -webkit-transform: scale3d(0,0,1);
+            height: 0;
+            border-width: 0;
+         }
+      }
 @-webkit-keyframes fire-shooting {
          from {
             -webkit-transform: translateY(352px);
@@ -41,11 +51,11 @@
    width: 9px;
    border-radius: 5px;
    margin-left: -7.5px;
-   -webkit-animation: fire-shooting 120ms ease-out;
+   -webkit-animation: fire-shooting 240ms ease-out;
 }
 
-.exploding {
-   -webkit-animation: fire-exploding 200ms linear;
+.fire.exploding {
+   -webkit-animation: fire-exploding 120ms linear;
 }
 
 #game-score {
@@ -107,7 +117,10 @@
       rgba(60, 60, 60, 0.5)
       rgba(0, 0, 0, 0.5);
    -webkit-animation:  token-appear 60ms linear;
-   -webkit-transition: background-color 300ms ease-out;
+}
+.token.exploding {
+   -webkit-animation: token-exploding 240ms linear;
+   -webkit-animation-fill-mode: forwards;
 }
 .column {
    position: absolute;
