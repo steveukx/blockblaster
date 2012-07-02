@@ -11,9 +11,12 @@ function Fire(container, color, columnLeft) {
 
 Fire.count = 0;
 
+Fire.prototype.isCollision = false;
+
 Fire.prototype = Object.create(Subscribable.prototype);
 
 Fire.prototype.explode = function(top) {
+   this.isCollision = true;
    this._sprite.css('top', top).addClass('exploding');
    return this;
 };

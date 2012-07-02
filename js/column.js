@@ -54,6 +54,9 @@ Column.prototype.dropFire = function(fire) {
    if(index >= 0) {
       this._fire.splice(index, 1);
    }
+   if(!fire.isCollision) {
+      this.pushToken(fire.color, true);
+   }
    return this;
 };
 
