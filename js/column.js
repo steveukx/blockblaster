@@ -16,7 +16,8 @@ function Column(left, maxTokens, container, index) {
  * @param {Boolean} [toEnd=false]
  */
 Column.prototype.pushToken = function(color, toEnd) {
-   var token = new Token(color);
+   var token = new Token(color),
+       newTokenCount = this._tokens.length + 1;
 
    if(toEnd) {
       this._tokens.push(token);
@@ -27,12 +28,20 @@ Column.prototype.pushToken = function(color, toEnd) {
       this._sprite.prepend(token.getDom());
    }
 
-   if(this._tokens.length >= this._maxTokens) {
+   if(newTokenCount >= this._maxTokens) {
       Game.fire('game.over', this);
       this._tokens.forEach(function(token) {
          token.gameOver();
       });
    }
+
+   else if(toEnd && newTokenCount > 1) {
+      if(this._tokens[newTokenCount - 1].color === this._tokens[newTokenCount - 2].color) {
+         this.destroyTokens(newTokenCount - 1);
+      }
+   }
+
+   return token;
 };
 
 /**
@@ -80,13 +89,7 @@ Column.prototype.detectCollisions = function() {
    this._fire.forEach(function(fire) {
       if(fire.getTop() <= bottom) {
          this.dropFire(fire.explode(bottom));
-
-         if(fire.color == this._tokens[this._tokens.length - 1].color) {
-            this.destroyTokens(this._tokens.length - 1);
-         }
-         else {
-            this.pushToken(fire.color, true);
-         }
+         this.pushToken(fire.color, true);
       }
    }.bind(this));
 };
