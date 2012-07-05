@@ -30,7 +30,9 @@ Game.pointerTouchEvent = ('ontouchstart' in document.documentElement) ? 'touchst
 Game.container.on(Game.pointerTouchEvent + ' mousemove', function(e) {
    if(!Game.running) return;
 
-   var left = Game.getColumnForLeft(e.pageX - Game.containerPosition.left).left + (Game.COLUMN_WIDTH / 2);
+   var pageX = (e.originalEvent.touches ? e.originalEvent.touches[0] : e).pageX;
+   var left = Game.getColumnForLeft(pageX - Game.containerPosition.left).left + (Game.COLUMN_WIDTH / 2);
+
    if(e.type != 'mousemove') {
       Game.fire('interaction.clicked', left);
    }
