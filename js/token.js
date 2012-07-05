@@ -15,11 +15,6 @@ Token.prototype.explode = function() {
    return this;
 };
 
-Token.prototype.gameOver = function() {
-   this._sprite.removeClass(this.color).addClass('white');
-   return this;
-};
-
 Token.prototype.getDom = function() {
    return this._sprite;
 };

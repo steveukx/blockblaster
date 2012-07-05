@@ -8,6 +8,7 @@ function Column(left, maxTokens, container, index) {
    this._sprite = jQuery('<div class="column"></div>').css('left', left).appendTo(container);
 
    Game.on('token.explode', this._onTokenExploded, this);
+   Game.on('game.over', this._onGameOver, this);
 }
 
 /**
@@ -30,9 +31,6 @@ Column.prototype.pushToken = function(color, toEnd) {
 
    if(newTokenCount >= this._maxTokens) {
       Game.fire('game.over', this);
-      this._tokens.forEach(function(token) {
-         token.gameOver();
-      });
    }
 
    else if(toEnd && newTokenCount > 1) {
@@ -67,6 +65,10 @@ Column.prototype.dropFire = function(fire) {
       this.pushToken(fire.color, true);
    }
    return this;
+};
+
+Column.prototype._onGameOver = function(column) {
+   this._sprite.toggleClass('column-error', column === this);
 };
 
 Column.prototype._onTokenExploded = function(token, tokenIndex, column) {

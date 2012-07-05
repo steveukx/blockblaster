@@ -112,6 +112,9 @@ Game.on('fire', function() {
 
 Game.on('interaction.clicked', function() { console.log(arguments); });
 
-Game.on('game.over', function() { this.running = false; }, Game);
+Game.on('game.over', function() {
+   this.running = false;
+   Game.container.addClass('game-over');
+}, Game);
 
 Game.on('token.explode', function() { this.pushScore(100); }, Game);
