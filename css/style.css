@@ -73,7 +73,7 @@
    background-image: -webkit-linear-gradient(0, white 0%, transparent 4%), -webkit-linear-gradient(white 0%, transparent 6%);
    background-size:  40px 20px;
    overflow: hidden;
-   -webkit-user-select
+   -webkit-user-select: none;
 }
 
 #game-shim {
@@ -96,7 +96,7 @@
    height: 48px;
 
    -webkit-transition:  background-position 60ms ease-in,
-                        background-color 100ms ease-in;
+                        background-color 120ms ease-in;
 }
 
 .token {
@@ -111,6 +111,7 @@
       rgba(60, 60, 60, 0.5)
       rgba(0, 0, 0, 0.5);
    -webkit-animation:  token-appear 60ms linear;
+   -webkit-transition: background-color 120ms linear;
 }
 .token.exploding {
    -webkit-animation: token-exploding 240ms linear;
